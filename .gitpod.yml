@@ -55,6 +55,9 @@ tasks:
       # We could use `gp sync-[done|await] <id>` but that won't work between `init` and `command`
       touch /workspace/.template_init
 
+  - name: Get Packages
+    command: flutter pub get
+
   - name: Run project
     command: |
       printf "\033[3J\033c\033[3J" && if test ! -e /workspace/.template_init; then {
