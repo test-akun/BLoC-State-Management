@@ -2,22 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-enum ColorEvent { toAmber, toLightBlue }
+enum ColorEventWithOutLibrary { toAmber, toLightBlue }
 
-class ColorBloc {
+class ColorBlocWithOutLibrary {
   Color _color = Colors.amber;
 
-  final StreamController<ColorEvent> _eventController =
-      StreamController<ColorEvent>();
-  StreamSink<ColorEvent> get eventSink => _eventController.sink;
-  Stream<ColorEvent> get _eventStream => _eventController.stream;
+  final StreamController<ColorEventWithOutLibrary> _eventController =
+      StreamController<ColorEventWithOutLibrary>();
+  StreamSink<ColorEventWithOutLibrary> get eventSink => _eventController.sink;
+  Stream<ColorEventWithOutLibrary> get _eventStream => _eventController.stream;
 
   final StreamController<Color> _stateController = StreamController<Color>();
   StreamSink<Color> get _stateSink => _stateController.sink;
   Stream<Color> get stateStream => _stateController.stream;
 
-  void _mapEventToState(ColorEvent colorEvent) {
-    if (colorEvent == ColorEvent.toAmber) {
+  void _mapEventToState(ColorEventWithOutLibrary colorEvent) {
+    if (colorEvent == ColorEventWithOutLibrary.toAmber) {
       _color = Colors.amber;
     } else {
       _color = Colors.lightBlueAccent;
@@ -26,7 +26,7 @@ class ColorBloc {
     _stateSink.add(_color);
   }
 
-  ColorBloc() {
+  ColorBlocWithOutLibrary() {
     _eventStream.listen(_mapEventToState);
   }
 

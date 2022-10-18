@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gitpod_flutter_quickstart/color_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gitpod_flutter_quickstart/color_bloc_with_library.dart';
+import 'package:gitpod_flutter_quickstart/presentation/page/home_page_with_flutter_bloc.dart';
+
+import 'color_bloc_without_library.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,22 +29,24 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'BLoC tanpa Library'),
+      home: BlocProvider<ColorBlocWithLibrary>(
+        create: (context) => ColorBlocWithLibrary(const InitialState(color: Colors.lightBlueAccent)),
+        child:  const HomeWithLibrary(),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ColorBloc bloc = ColorBloc();
+  ColorBlocWithOutLibrary bloc = ColorBlocWithOutLibrary();
 
   @override
   void dispose() {
@@ -51,13 +57,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: const Text('BLoc tanpa library')),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
               onPressed: () {
-                bloc.eventSink.add(ColorEvent.toAmber);
+                bloc.eventSink.add(ColorEventWithOutLibrary.toAmber);
               },
               backgroundColor: Colors.amberAccent),
           const SizedBox(
@@ -65,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           FloatingActionButton(
             onPressed: () {
-              bloc.eventSink.add(ColorEvent.toLightBlue);
+              bloc.eventSink.add(ColorEventWithOutLibrary.toLightBlue);
             },
             backgroundColor: Colors.lightBlueAccent,
           ),
